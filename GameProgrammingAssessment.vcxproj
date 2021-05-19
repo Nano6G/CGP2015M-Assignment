@@ -147,6 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameProgrammingAssessment.cpp" />
     <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -156,6 +158,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameWorld.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Timer.h" />

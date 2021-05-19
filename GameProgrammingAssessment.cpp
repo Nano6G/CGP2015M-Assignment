@@ -6,18 +6,19 @@
 #include "GameWorld.h"
 
 
-
 int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(SDL_INIT_EVERYTHING);
 
     GameWorld gameWorld1;
 
     gameWorld1.Init();
     gameWorld1.SplashScreen();
-    //gameWorld1.Run();
 
-    printf("Exiting...");
+
+    SDL_Quit();
+    IMG_Quit();
     return 0;
     
 }

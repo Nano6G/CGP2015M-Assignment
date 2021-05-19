@@ -8,27 +8,33 @@ class GameWorld;
 class Player
 {
 private:
-	SDL_Renderer* renderer;
 	int changeX;
 	int changeY;
+
 	SDL_Rect playerSprite;
+	SDL_Rect spritePositionRect{ 0, 0, 64, 64 };
+	bool moving = false;
+	unsigned int changeTimeMS = 300;
+
 	int dashCooldown = 0;
 
-	SDL_Surface* playerSur = IMG_Load("PlayerSprite.png");
-	SDL_Texture* playerTex = SDL_CreateTextureFromSurface(renderer, playerSur);
+	double playerAngle = 0;
+
+	int speed = 8;
+	int dashSpeed = 50;
+
+	SDL_Surface* playerSur;
+	SDL_Texture* playerTex;
 
 public:
-	Player();
-
-	//int playerX;
-	//int playerY;
-	//int playerW;
-	//int playerH;
+	SDL_Renderer* renderer;
 
 	void Init(int x, int y, int w, int h);
-	void Input(bool pressedKeys[256]);
+	void Input(bool pressedKeys[256], bool mouseClick);
 	void Update();
-	void Render(SDL_Renderer* renderer);
+	void Render();
+
+	//int Animate();
 
 	GameWorld* parent;
 };
