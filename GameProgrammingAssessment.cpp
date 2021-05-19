@@ -5,12 +5,6 @@
 #include "SDL.h"
 #include "GameWorld.h"
 
-/*
-#include "SZ_timer.h"
-SZ_timer timer;
-const int DELTA_TIME = 60;
-bool running = true
-*/
 
 
 int main(int argc, char *argv[])
@@ -20,7 +14,8 @@ int main(int argc, char *argv[])
     GameWorld gameWorld1;
 
     gameWorld1.Init();
-    gameWorld1.Run();
+    gameWorld1.SplashScreen();
+    //gameWorld1.Run();
 
     printf("Exiting...");
     return 0;

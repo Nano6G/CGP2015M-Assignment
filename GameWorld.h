@@ -7,6 +7,7 @@ class GameWorld
 {
 private:
 	const int DELTA_TIME = 60;
+	bool displaySplash = true;
 	bool running = false;
 	bool fullscreen = false;
 	Timer timer;
@@ -22,6 +23,9 @@ public:
 
 	//Initialisation function
 	void Init();
+
+	//Splash screen function
+	void SplashScreen();
 
 	//Funtion for starting and running the game loop
 	void Run();

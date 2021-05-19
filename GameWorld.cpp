@@ -15,6 +15,7 @@ void GameWorld::Init()
     //Create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
+    //Sets window size to scale renderer from
     SDL_RenderSetLogicalSize(renderer, 1600, 900);
 
     //Initialises player object with current gameworld as parent
@@ -22,9 +23,44 @@ void GameWorld::Init()
     player.Init(50, 50, 60, 60);
 }
 
+
+void GameWorld::SplashScreen()
+{
+    while (displaySplash)
+    {
+        SDL_Surface* splashImage = IMG_Load("splash.png");
+        SDL_Texture* splashTexture = SDL_CreateTextureFromSurface(renderer, splashImage);
+
+        SDL_RenderCopy(renderer, splashTexture, NULL, NULL);
+
+        //Present changes to window
+        SDL_RenderPresent(renderer);
+
+        while (SDL_PollEvent(&_event))
+        {
+
+            if (_event.type == SDL_KEYDOWN && _event.key.repeat == NULL)
+            {
+                switch (_event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
+                    displaySplash = false;
+                    Run();
+                    break;
+
+                case SDLK_SPACE:
+                    displaySplash = false;
+                    Run();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+
 void GameWorld::Run()
 {
-
     running = true;
     while (running)
     {
@@ -81,6 +117,9 @@ void GameWorld::Input()
             case SDLK_r:
                 pressedKeys[SDLK_r] = true;
                 ToggleFullscreen();
+            case SDLK_SPACE:
+                pressedKeys[SDLK_SPACE] = true;
+                break;
             }
         }
 
@@ -100,36 +139,19 @@ void GameWorld::Input()
             case SDLK_d:
                 pressedKeys[SDLK_d] = false;
                 break;
+            case SDLK_SPACE:
+                pressedKeys[SDLK_SPACE] = false;
+                break;
             }
         }
     }
 
-    player.Input();
+    player.Input(pressedKeys);
 }
 
 void GameWorld::Update()
 {
-    int changeX = 0;
-    int changeY = 0;
-
-    if (pressedKeys[SDLK_w] == true)
-    {
-        changeY -= 10;
-    }
-    if (pressedKeys[SDLK_a] == true)
-    {
-        changeX -= 10;
-    }
-    if (pressedKeys[SDLK_s] == true)
-    {
-        changeY += 10;
-    }
-    if (pressedKeys[SDLK_d] == true)
-    {
-        changeX += 10;
-    }
-
-    player.Update(changeX, changeY);
+    player.Update();
 }
 
 void GameWorld::Render(SDL_Renderer* renderer)
@@ -144,7 +166,6 @@ void GameWorld::Render(SDL_Renderer* renderer)
 
     //Present changes to window
     SDL_RenderPresent(renderer);
-    //printf("Rendering changes...\n");
 
     
     if (timer.getTicks() < DELTA_TIME)

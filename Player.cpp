@@ -14,45 +14,71 @@ void Player::Init(int x, int y, int w, int h)
     this->playerSprite.h = h;
 }
 
-void Player::Input()
+void Player::Input(bool pressedKeys[256])
 {
     //printf("Checking inputs for the player...\n");
 
-    /*
-    while (SDL_PollEvent(&_event))
-    {
-        if (_event.type == SDL_KEYDOWN && _event.key.repeat == NULL)
-        {
-            switch (_event.key.keysym.sym)
-            {
-            case SDLK_w:
-                printf("W has been pressed \n");
-                //GameWorld pressedKeys[SDLK_w] = true;
-                playerSprite.y += 10;
-                break;
-            }
-        }
+    changeX = 0;
+    changeY = 0;
 
-        if (_event.type == SDL_KEYUP && _event.key.repeat == NULL)
+    if (pressedKeys[SDLK_w] == true)
+    {
+        if (pressedKeys[SDLK_SPACE] == true && dashCooldown <= 0)
         {
-            switch (_event.key.keysym.sym)
-            {
-            case SDLK_w:
-                printf("W has been unpressed \n");
-                //pressedKeys[SDLK_w] = false;
-                break;
-            }
+            changeY -= 50;
+            dashCooldown = 20;
+        }
+        else
+        {
+            changeY -= 10;
         }
     }
-    */
+    if (pressedKeys[SDLK_a] == true)
+    {
+        if (pressedKeys[SDLK_SPACE] == true && dashCooldown <= 0)
+        {
+            changeX -= 50;
+            dashCooldown = 20;
+        }
+        else
+        {
+            changeX -= 10;
+        }
+    }
+    if (pressedKeys[SDLK_s] == true)
+    {
+        if (pressedKeys[SDLK_SPACE] == true && dashCooldown <= 0)
+        {
+            changeY += 50;
+            dashCooldown = 20;
+        }
+        else
+        {
+            changeY += 10;
+        }
+    }
+    if (pressedKeys[SDLK_d] == true)
+    {
+        if (pressedKeys[SDLK_SPACE] == true && dashCooldown <= 0)
+        {
+            changeX += 50;
+            dashCooldown = 20;
+        }
+        else
+        {
+            changeX += 10;
+        }
+    }
 }
 
-void Player::Update(int changeX, int changeY)
+void Player::Update()
 {
+    //printf("Updating the player...\n");
+
     playerSprite.x += changeX;
     playerSprite.y += changeY;
 
-
+    dashCooldown--;
 }
 
 void Player::Render(SDL_Renderer* renderer)
