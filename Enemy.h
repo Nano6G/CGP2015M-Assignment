@@ -10,6 +10,7 @@ class Enemy
 private:
 	int changeX;
 	int changeY;
+
 	SDL_Rect enemySprite;
 	SDL_Rect spritePositionRect{ 0, 0, 64, 64 };
 

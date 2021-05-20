@@ -74,13 +74,21 @@ void GameWorld::SplashScreen()
 
 void GameWorld::Run()
 {
+    ticksOnGameRun = SDL_GetTicks();
     running = true;
     while (running)
     {
-        Input();
-        Update();
-        Render(renderer);
-        currentFrameCounter++;
+        if (secondsPassed <= 60)
+        {
+            Input();
+            Update();
+            Render(renderer);
+            currentFrameCounter++;
+        }
+        else
+        {
+            break;
+        }
     }
 }
 
@@ -187,12 +195,14 @@ void GameWorld::Update()
 
 void GameWorld::Render(SDL_Renderer* renderer)
 {
-    /*
-    if (currentFrameCounter % 60 == 0)
+    unsigned int ticksSinceGameLaunch = SDL_GetTicks() - ticksOnGameRun;
+    secondsPassed = (ticksSinceGameLaunch / 1000);
+
+    if (currentFrameCounter % 40 == 0)
     {
-        SDL_Log("Current frame counter is divisible by 60\n");
+        SDL_Log("[TIMER] Seconds passed since game launch: %i", secondsPassed);
     }
-    */
+
 
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255);
 
@@ -207,10 +217,6 @@ void GameWorld::Render(SDL_Renderer* renderer)
     enemy2.Render();
 
 
-    //SDL_Surface* playerSur = IMG_Load("PlayerSprite.png");
-    //SDL_Texture* playerTex = SDL_CreateTextureFromSurface(renderer, playerSur);
-    //SDL_RenderCopy(renderer, playerTex, NULL, NULL);
-
     //Present changes to window
     SDL_RenderPresent(renderer);
 
@@ -219,6 +225,7 @@ void GameWorld::Render(SDL_Renderer* renderer)
     {
         SDL_Delay(DELTA_TIME - timer.getTicks());
     }
+    
 
 
     //SDL_Log("Current frame ticks: %i", timer.getTicks());

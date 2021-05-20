@@ -18,7 +18,11 @@ private:
 	Enemy enemy2;
 
 	int currentFrameCounter = 0;
+	int gameTimer = 60;
+	int ticksOnGameRun;
 	bool mouseClick = false;
+
+	unsigned int secondsPassed;
 
 public:
 	SDL_Window* window;

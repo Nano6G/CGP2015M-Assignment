@@ -1,6 +1,6 @@
 #include "Player.h"
 #include "GameWorld.h"
-
+#include "Bullet.h"
 
 
 void Player::Init(int x, int y, int w, int h)
@@ -49,7 +49,7 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
         {
             changeX -= speed;
         }
-        playerAngle = -90;
+        playerAngle = 270;
     }
     if (pressedKeys[SDLK_s] == true)
     {
@@ -103,6 +103,15 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
     {
         moving = false;
     }
+
+    if (mouseClick)
+    {
+        firing = true;
+    }
+    else
+    {
+        firing = false;
+    }
 }
 
 
@@ -118,35 +127,50 @@ void Player::Update()
     {
         spritePositionRect.x = (64 * frameIndex);
     }
+    if (firing)
+    {
+        if (firingDelay <= 0)
+        {
+            Bullet* bullet1 = new Bullet();
+            bullet1->Init(playerAngle, playerSprite.x, playerSprite.y, renderer);
+            //bullet1->renderer = renderer;
+            bullets.push_back(bullet1);
+            firingDelay = 15;
+        }
+        
+    }
+    firingDelay--;
 
-
+    //Update bullets
+    for (int i = 0; i < bullets.size(); i++)
+    {
+        Bullet* currentBullet = bullets[i];
+        currentBullet->Update();
+    }
 
     //Collision handling for the boundaries of the screen
     if (playerSprite.x + playerSprite.w > 1600)
     {
-        SDL_Log("[PLAYER] Player is at right screen boundary\n");
+        SDL_Log("[COLLISION] Player is at right screen boundary\n");
         playerSprite.x = 1600 - playerSprite.w;
     }
     if (playerSprite.x < 0)
     {
-        SDL_Log("[PLAYER] Player is at left screen boundary\n");
+        SDL_Log("[COLLISION] Player is at left screen boundary\n");
         playerSprite.x = 0;
     }
 
 
     if (playerSprite.y + playerSprite.h > 900)
     {
-        SDL_Log("[PLAYER] Player is at lower screen boundary\n");
+        SDL_Log("[COLLISION] Player is at lower screen boundary\n");
         playerSprite.y = 900 - playerSprite.h;
     }
     if (playerSprite.y < 0)
     {
-        SDL_Log("[PLAYER] Player is at upper screen boundary\n");
+        SDL_Log("[COLLISION] Player is at upper screen boundary\n");
         playerSprite.y = 0;
     }
-
-    //Collision handling for the enemies
-    //TODO
 
     dashCooldown--;
 }
@@ -154,4 +178,12 @@ void Player::Update()
 void Player::Render()
 {
     SDL_RenderCopyEx(renderer, playerTex, &spritePositionRect, &playerSprite, playerAngle, NULL, SDL_FLIP_NONE);
+
+    //Render all current bullets
+    for (int i = 0; i < bullets.size(); i++)
+    {
+        Bullet* currentBullet = bullets[i];
+        currentBullet->Render();
+    }
+    
 }

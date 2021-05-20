@@ -2,6 +2,10 @@
 #include <iostream>
 #include "SDL.h"
 #include "SDL_image.h"
+#include "Bullet.h"
+#include <list>
+#include <vector>
+#include "Enemy.h"
 
 class GameWorld;
 
@@ -14,7 +18,9 @@ private:
 	SDL_Rect playerSprite;
 	SDL_Rect spritePositionRect{ 0, 0, 64, 64 };
 	bool moving = false;
+	bool firing = false;
 	unsigned int changeTimeMS = 300;
+	int firingDelay = 0;
 
 	int dashCooldown = 0;
 
@@ -34,7 +40,7 @@ public:
 	void Update();
 	void Render();
 
-	//int Animate();
+	std::vector<Bullet*> bullets;
 
 	GameWorld* parent;
 };
