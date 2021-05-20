@@ -8,7 +8,7 @@ void GameWorld::Init()
     SDL_Log("[OBJECT] Game world object initialised\n");
 
     //Create window
-    window = SDL_CreateWindow("William Smith, 19693578, CGP2015 - GAME NAME", 200, 200, 1600, 900, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("William Smith, 19693578, CGP2015 - Run n' Gun", 200, 200, 1600, 900, SDL_WINDOW_SHOWN);
 
     //Create renderer
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
