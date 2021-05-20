@@ -24,7 +24,7 @@ private:
 public:
 	SDL_Renderer* renderer;
 
-	void Init(int x, int y, SDL_Renderer* mainRenderer);
+	void Init(int x, int y, SDL_Renderer* mainRenderer, int spriteNumber);
 	void Update();
 	void Render();
 

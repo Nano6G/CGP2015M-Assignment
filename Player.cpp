@@ -5,7 +5,9 @@
 
 void Player::Init(int x, int y, int w, int h)
 {
-    SDL_Log("[OBJECT] Player object initialised\n");
+    SDL_Log("[OBJECT] Player object initialised\n"); //Logs player initialisation
+
+    //Sets current position to passed variables
     this->playerSprite.x = x;
     this->playerSprite.y = y;
     this->playerSprite.w = w;
@@ -25,6 +27,7 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
     changeX = 0;
     changeY = 0;
 
+    //Handles passed key presses - changes speed and angle accordingly
     if (pressedKeys[SDLK_w] == true)
     {
         if (pressedKeys[SDLK_SPACE] == true && dashCooldown <= 0)
@@ -78,6 +81,7 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
         playerAngle = 90;
     }
 
+    //Sets angle as diagonal if appropriate
     if (pressedKeys[SDLK_w] && pressedKeys[SDLK_d])
     {
         playerAngle = 45;
@@ -95,6 +99,7 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
         playerAngle = 315;
     }
 
+    //Determines if player is moving in any direction
     if (pressedKeys[SDLK_w] || pressedKeys[SDLK_a] || pressedKeys[SDLK_s] || pressedKeys[SDLK_d])
     {
         moving = true;
@@ -104,6 +109,7 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
         moving = false;
     }
 
+    //Deteremines if player is left clicking
     if (mouseClick)
     {
         firing = true;
@@ -117,16 +123,19 @@ void Player::Input(bool pressedKeys[256], bool mouseClick)
 
 void Player::Update()
 {
+    //Applies movement to the player sprite
     playerSprite.x += changeX;
     playerSprite.y += changeY;
 
+    //Handles the movement animation of the player sprite
     unsigned int ticks = SDL_GetTicks();
     unsigned int frameIndex = (ticks / changeTimeMS) % 2;
-
     if (moving)
     {
         spritePositionRect.x = (64 * frameIndex);
     }
+
+    //Initialises bullet objects when left clicking
     if (firing)
     {
         if (firingDelay <= 0)
@@ -177,6 +186,7 @@ void Player::Update()
 
 void Player::Render()
 {
+    //Renders the player sprite
     SDL_RenderCopyEx(renderer, playerTex, &spritePositionRect, &playerSprite, playerAngle, NULL, SDL_FLIP_NONE);
 
     //Render all current bullets

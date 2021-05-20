@@ -3,7 +3,7 @@
 
 void Bullet::Init(double playerAngle, int playerX, int playerY, SDL_Renderer* mainRenderer)
 {
-    SDL_Log("[OBJECT] Bullet object initialised\n");
+    SDL_Log("[OBJECT] Bullet object initialised\n"); //Logs bullet initialisation
     renderer = mainRenderer;
 
     //Create surface from sprite file
@@ -25,7 +25,8 @@ void Bullet::Init(double playerAngle, int playerX, int playerY, SDL_Renderer* ma
 
 void Bullet::Update()
 {
-    if (activeBullet)
+    //Applies speed to the bullet in the appropriate direction
+    if (activeBullet) //Only continues if the bullet is still on screen
     {
         if (bulletAngle == 0)
         {
@@ -67,7 +68,7 @@ void Bullet::Update()
         bulletSprite.x += changeX;
         bulletSprite.y += changeY;
 
-        //Collision handling for the boundaries of the screen
+        //Collision handling for the boundaries of the screen - this ensures the game ignores any bullets not currently on screen
         if (bulletSprite.x + bulletSprite.w > 1600)
         {
             SDL_Log("[COLLISION] Bullet is passed right screen boundary and now being ignored\n");
@@ -95,6 +96,7 @@ void Bullet::Update()
 
 void Bullet::Render()
 {
+    //Renders the bullet if currently on screen
     if (activeBullet)
     {
         SDL_RenderCopyEx(renderer, bulletTex, &spritePositionRect, &bulletSprite, bulletAngle, NULL, SDL_FLIP_NONE);

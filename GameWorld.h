@@ -24,6 +24,12 @@ private:
 
 	unsigned int secondsPassed;
 
+	SDL_AudioSpec audioSpec;
+	Uint32 audioLength;
+	Uint8 *audioBuffer;
+	SDL_AudioDeviceID deviceID = SDL_OpenAudioDevice(NULL, 0, &audioSpec, NULL, 0);
+	bool audioPlaying = true;
+
 public:
 	SDL_Window* window;
 	SDL_Renderer* renderer;

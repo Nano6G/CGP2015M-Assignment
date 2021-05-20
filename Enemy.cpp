@@ -1,25 +1,24 @@
 #include "Enemy.h"
 #include "GameWorld.h"
 
-void Enemy::Init(int x, int y, SDL_Renderer* mainRenderer)
+void Enemy::Init(int x, int y, SDL_Renderer* mainRenderer, int spriteNumber)
 {
     renderer = mainRenderer;
 
-	SDL_Log("[OBJECT] Enemy object initialised\n");
+	SDL_Log("[OBJECT] Enemy object initialised\n"); //Logs enemy initialisation
 
 	this->enemySprite.x = x;
 	this->enemySprite.y = y;
 	this->enemySprite.w = 64;
 	this->enemySprite.h = 64;
 
-    int random = rand() % 2;
 
-    //Randomly choose between the two enemy sprites
-    if (random == 0)
+    //Choose between the two enemy sprites
+    if (spriteNumber == 0)
     {
         enemySur = IMG_Load("res/Sprites/EnemySprite1.png");
     }
-    else if (random == 1)
+    else if (spriteNumber == 1)
     {
         enemySur = IMG_Load("res/Sprites/EnemySprite2.png");
     }
@@ -60,5 +59,6 @@ void Enemy::Update()
 
 void Enemy::Render()
 {
+    //Renders the enemy
 	SDL_RenderCopyEx(renderer, enemyTex, &spritePositionRect, &enemySprite, enemyAngle, NULL, SDL_FLIP_NONE);
 }
